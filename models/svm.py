@@ -1,14 +1,23 @@
+from sklearn.svm import SVC
+from sklearn.metrics import classification_report
 import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
 
 
-# Importing the dataset
-def import_dataset():
-    global train, test
-    train = pd.read_csv('sentiment_training.csv').headers = []
-    test = pd.read_csv('sentiment_testing.csv')
+class SentimentAnalysisSVM:
+    def __init__(self, X_train : pd.Series, X_test: pd.Series, y_train: pd.Series, y_test: pd.Series):
+        print(type(X_train))
+        # assert isinstance(X_train, pd.Series)
+        self.X_train = X_train
+        self.X_test = X_test
+        self.y_train = y_train
+        self.y_test = y_test
 
-if __name__ == '__main__':
-    import_dataset()
-    print(train)
+    def train(self, c=1):
+        self.svm = SVC(kernel='linear', C=c)
+        self.svm.fit(self.X_train, self.y_train)
+
+    def predict(self):
+        self.y_pred = self.svm.predict(self.X_test)
+
+    def evaluate(self):
+        return classification_report(self.y_test, self.y_pred)

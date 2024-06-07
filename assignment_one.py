@@ -1,6 +1,7 @@
-from util.initialize import import_dataset
+from util.initialize import *
+from util.preprocessing import *
 from pathlib import Path
-
+from models.svm import SentimentAnalysisSVM
 
 
 
@@ -12,7 +13,11 @@ def main():
     sentiment_test = data_path / 'sentiment_testing.csv'
     train_df = import_dataset(sentiment_train, headers=['id', 'entity', 'sentiment', 'content'])
     test_df = import_dataset(sentiment_test, headers=['id', 'entity', 'sentiment', 'content'])
-    print(type(train_df['content']))
+    X_train, X_test, y_train, y_test = preProcessSentimentData(train_df, test_df)
+    svm = SentimentAnalysisSVM(X_train, X_test, y_train, y_test)
+    svm.train()
+    svm.predict()
+    print(svm.evaluate())
 
 
 
