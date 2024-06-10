@@ -5,8 +5,6 @@ import pandas as pd
 
 class SentimentAnalysisSVM:
     def __init__(self, X_train : pd.Series, X_test: pd.Series, y_train: pd.Series, y_test: pd.Series):
-        print(type(X_train))
-        # assert isinstance(X_train, pd.Series)
         self.X_train = X_train
         self.X_test = X_test
         self.y_train = y_train
